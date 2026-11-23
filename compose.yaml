@@ -1,0 +1,62 @@
+# Inkling 2 Mini on NInfer: one command to an OpenAI-compatible (and Anthropic Messages) API.
+#   docker compose up -d        first start downloads the 16.5 GB model, then serves on 127.0.0.1:9000
+# Settings: .env (see .env.example). Needs an NVIDIA GPU with 24 GB (RTX 20/30/40/50) + NVIDIA Container Toolkit.
+name: inkling-serve
+
+x-image: &image ghcr.io/iamwavecut/ninfer-all:cuda13.4@sha256:48edc47fc63eb2a90b186288be9e90d656ce5849118fb2f2738f0da612818d67
+
+services:
+  fetch:
+    image: *image
+    entrypoint: ["bash", "/fetch.sh"]
+    volumes:
+      - ./fetch.sh:/fetch.sh:ro
+      - ${MODEL_DIR:-./models}:/models
+    environment:
+      HF_TOKEN: ${HF_TOKEN:-}
+    restart: "no"
+
+  ninfer:
+    image: *image
+    depends_on:
+      fetch:
+        condition: service_completed_successfully
+    command:
+      - serve
+      - /models/inkling2/Inkling-2-Mini-UD-IQ4_XS-ninfer-v3.ninfer
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8080"
+      - --model-id
+      - ${MODEL_ID:-Inkling-2-Mini-UD-IQ4_XS-ninfer-v3}
+      - --max-context
+      - ${MAX_CONTEXT:-131072}
+      - --max-concurrency
+      - ${MAX_CONCURRENCY:-1}
+      - ${VISION:---vision}
+    ports:
+      - ${BIND:-127.0.0.1}:${PORT:-9000}:8080
+    volumes:
+      - ${MODEL_DIR:-./models}:/models:ro
+      - ninfer-cache:/cache
+    ipc: host
+    ulimits:
+      memlock: -1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${GPU:-0}"]
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8080/v1/models"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10m
+    restart: unless-stopped
+
+volumes:
+  ninfer-cache:
