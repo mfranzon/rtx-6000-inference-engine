@@ -2,7 +2,8 @@
 # inkling-serve installer: Docker + NVIDIA Container Toolkit (if missing), then the Compose stack.
 #
 #   ./install.sh                      from a checkout
-#   curl -fsSL <raw-url>/install.sh | bash          clones INKLING_REPO into ~/inkling-serve first
+#   curl -fsSL https://raw.githubusercontent.com/mfranzon/rtx-6000-inference-engine/main/install.sh | bash
+#                                     (clones INKLING_REPO into ~/inkling-serve first)
 #
 # Options (flags or environment):
 #   --dir DIR            install location when not run from a checkout (default ~/inkling-serve)
@@ -14,7 +15,7 @@
 # Supported hosts: Ubuntu/Debian with an NVIDIA driver already installed (nvidia-smi works).
 set -euo pipefail
 
-INKLING_REPO=${INKLING_REPO:-}
+INKLING_REPO=${INKLING_REPO:-https://github.com/mfranzon/rtx-6000-inference-engine.git}
 DIR=${INKLING_DIR:-$HOME/inkling-serve}
 MODEL_DIR=${MODEL_DIR:-}
 CONCURRENCY=${MAX_CONCURRENCY:-1}

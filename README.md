@@ -4,9 +4,15 @@ Inkling 2 Mini on [NInfer-all](https://github.com/iamwavecut/ninfer-all), one co
 OpenAI-compatible API (also Anthropic Messages and OpenAI Responses). It's tuned for a single 24 GB card.
 
 ```bash
-git clone <repo-url> inkling-serve && cd inkling-serve
+git clone https://github.com/mfranzon/rtx-6000-inference-engine.git && cd rtx-6000-inference-engine
 ./install.sh             # checks the GPU/driver, installs Docker + NVIDIA Container Toolkit if missing,
                          # writes .env, starts the stack and runs a smoke test
+```
+
+Or in one line (clones into `~/inkling-serve`):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/mfranzon/rtx-6000-inference-engine/main/install.sh | bash
 ```
 
 `./install.sh --check` only reports what's missing. `--model-dir DIR` reuses an existing download,
