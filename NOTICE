@@ -1,0 +1,13 @@
+inkling-serve
+Copyright 2026 Marco Franzon
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This repository contains only scripts and configuration. It downloads, but does not include or
+redistribute, the following third-party components, each under its own license:
+
+- NInfer-all container image (ghcr.io/iamwavecut/ninfer-all), Apache License 2.0; the image also
+  bundles FFmpeg (LGPL 2.1) and dav1d (BSD 2-Clause), whose licenses ship in /opt/ninfer/licenses.
+- Inkling 2 Mini NInfer artifact (WaveCut/Inkling-2-Mini-UD-IQ4_XS-NInfer-v3), Apache License 2.0,
+  derived from Thinking Machines' Inkling 2 Mini and Unsloth's GGUF quantization (both Apache
+  License 2.0); see the NOTICE file in that model repository for full attribution.

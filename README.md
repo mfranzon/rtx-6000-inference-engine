@@ -65,3 +65,8 @@ docker compose pull && docker compose up -d   # after changing the pinned digest
 ```
 
 ECC on workstation cards (Quadro/RTX A) costs about 10% decode bandwidth. `sudo nvidia-smi -e 0` and a reboot turn it off.
+
+## License
+
+Apache License 2.0 (`LICENSE`). The scripts here download the NInfer-all image and the Inkling 2 Mini
+weights, which come under their own licenses (both Apache 2.0); see `NOTICE`.
