@@ -120,11 +120,11 @@ else
   ok "keeping existing .env"
 fi
 
+(( START )) || { say "installed in $DIR; start with: cd $DIR && docker compose up -d --wait"; exit 0; }
+
 if ss -ltn "sport = :$PORT" 2>/dev/null | grep -q LISTEN && ! $DOCKER compose ps -q ninfer 2>/dev/null | grep -q .; then
   die "port $PORT is in use by something else; pick another with --port or stop it"
 fi
-
-(( START )) || { say "installed in $DIR; start with: cd $DIR && docker compose up -d --wait"; exit 0; }
 
 # --- start --------------------------------------------------------------------------------------
 say "starting (first run downloads 16.5 GB; progress: docker compose -f $DIR/compose.yaml logs -f fetch)"
